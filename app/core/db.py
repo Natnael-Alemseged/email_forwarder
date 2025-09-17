@@ -3,10 +3,13 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from app.core.config import settings
 
+# Detect if using SQLite
+is_sqlite = settings.DB_URI.startswith("sqlite")
+
 # Create database engine
 engine = create_engine(
     settings.DB_URI,
-    connect_args={"check_same_thread": False} if settings.DB_URI.startswith("sqlite") else {}
+    connect_args={"check_same_thread": False} if is_sqlite else {}
 )
 
 # Session maker

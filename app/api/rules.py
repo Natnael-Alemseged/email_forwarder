@@ -35,3 +35,23 @@ def add_rule(user_id: str, sender_id: str, db: Session = Depends(get_db)):
     db.refresh(rule)
 
     return {"message": "Rule added", "id": rule.id}
+
+
+
+
+# ✅ Get all rules
+@router.get("/rules")
+def get_rules(db: Session = Depends(get_db)):
+    rules = db.query(Rule).all()
+    return rules
+
+
+# ✅ Get rules for a specific user
+@router.get("/rules/{user_id}")
+def get_rules_by_user(user_id: str, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    rules = db.query(Rule).filter(Rule.user_id == user_id).all()
+    return rules
