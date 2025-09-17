@@ -8,7 +8,14 @@ user = APIRouter()
 
 @user.post("/users")
 def add_user(email: str, db: Session = Depends(get_db)):
-    user = User(email=email)
-    db.add(user)
+    # Check if user already exists
+    existing_user = db.query(User).filter(User.email == email).first()
+    if existing_user:
+        return {"message": "User already exists", "id": existing_user.id}
+
+    # Otherwise create new user
+    new_user = User(email=email)
+    db.add(new_user)
     db.commit()
-    return {"message": "User added", "id": user.id}
+    db.refresh(new_user)
+    return {"message": "User added", "id": new_user.id}
