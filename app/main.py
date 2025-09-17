@@ -14,7 +14,9 @@ app = FastAPI(title="Email Forwarder")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # <-- allow all origins
+    allow_origins=[
+        "https://v0-next-js-frontend-seven-flame.vercel.app",
+        "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
