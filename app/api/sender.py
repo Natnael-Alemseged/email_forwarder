@@ -6,30 +6,24 @@ from app.model.sender import Sender
 
 router = APIRouter()
 
-# Allowed frontend domains
-ALLOWED_ORIGINS = [
-    "https://v0-next-js-frontend-seven-flame.vercel.app",
-    "http://localhost:3000",
-    "https://v0.app",
-]
-
 @router.get("/senders")
 def list_senders(request: Request, db: Session = Depends(get_db)):
-    """
-    List all senders. Logs origin, referer, and client IP.
-    Rejects requests from non-whitelisted origins.
-    """
+    # Get front-end origin from headers
     origin = request.headers.get("origin")
-    referer = request.headers.get("referer")
-    client_ip = request.client.host
+    referer = request.headers.get("referer")  # sometimes useful
+    client_host = request.client.host  # client IP
 
-    print(f"Frontend origin: {origin}")
-    print(f"Referer: {referer}")
-    print(f"Client IP: {client_ip}")
+    print(f"Request from origin: {origin}, referer: {referer}, IP: {client_host}")
 
     # Optional: whitelist only certain frontends
-    if origin not in ALLOWED_ORIGINS:
-        raise HTTPException(status_code=403, detail=f"Origin '{origin}' not allowed")
+    allowed_origins = [
+        "https://v0-next-js-frontend-seven-flame.vercel.app",
+        "http://localhost:3000",
+        "http://localhost:3001",
+        "https://v0.app",
+    ]
+    if origin not in allowed_origins:
+        raise HTTPException(status_code=403, detail="Origin not allowed")
 
     senders = db.query(Sender).all()
     return [{"id": s.id, "email": s.email, "name": s.name} for s in senders]

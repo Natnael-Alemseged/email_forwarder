@@ -17,6 +17,7 @@ app.add_middleware(
     allow_origins=[
         "https://v0-next-js-frontend-seven-flame.vercel.app",
         "http://localhost:3000",
+        "http://localhost:3001",
         "https://v0.app",
         "https://*.v0.app"
 
