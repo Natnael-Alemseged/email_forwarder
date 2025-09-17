@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from app.api.users import user
 from app.api.rules import router as rules
+from app.api.sender import router as senders
+
+
 import threading
 
 from app.core.db import engine,Base
@@ -14,6 +17,6 @@ def on_startup():
 
 app.include_router(user, prefix="/api")
 app.include_router(rules, prefix="/api")
-
+app.include_router(senders, prefix="/api")
 # Start worker in background
 threading.Thread(target=start_worker, daemon=True).start()
