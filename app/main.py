@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
+from starlette.middleware.cors import CORSMiddleware
+
 from app.api.users import user
 from app.api.rules import router as rules
 from app.api.sender import router as senders
@@ -9,6 +11,14 @@ from app.core.db import engine, Base
 from app.service.worker import start_worker
 
 app = FastAPI(title="Email Forwarder")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # <-- allow all origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 def on_startup():

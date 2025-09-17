@@ -6,3 +6,4 @@ python-dotenv
 
 pydantic-settings~=2.10.1
 psycopg2-binary
+starlette
