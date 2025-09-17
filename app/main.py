@@ -16,7 +16,11 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://v0-next-js-frontend-seven-flame.vercel.app",
-        "http://localhost:3000"],
+        "http://localhost:3000",
+    "https://v0.app",
+        "https://*.v0.app"
+
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
