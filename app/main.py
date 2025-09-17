@@ -17,7 +17,7 @@ app.add_middleware(
     allow_origins=[
         "https://v0-next-js-frontend-seven-flame.vercel.app",
         "http://localhost:3000",
-    "https://v0.app",
+        "https://v0.app",
         "https://*.v0.app"
 
     ],
@@ -25,6 +25,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.on_event("startup")
 def on_startup():
@@ -38,6 +39,7 @@ def on_startup():
     except OperationalError as e:
         print("❌ Failed to connect to database:", e)
         raise e  # Fail startup if DB is not reachable
+
 
 # Include routes
 app.include_router(user, prefix="/api")
