@@ -19,7 +19,8 @@ app.add_middleware(
         "http://localhost:3000",
         "http://localhost:3001",
         "https://v0.app",
-        "https://*.v0.app"
+        "https://*.v0.app",
+        "https://*.vercel.app",
 
     ],
     allow_credentials=True,
