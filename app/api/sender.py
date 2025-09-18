@@ -8,6 +8,7 @@ from app.service.email_service import save_sender_if_new
 
 router = APIRouter()
 
+
 class SenderCreate(BaseModel):
     email: EmailStr
 
@@ -21,7 +22,14 @@ def add_sender(sender: SenderCreate, db: Session = Depends(get_db)):
     new_sender = save_sender_if_new(db, sender.email)
     if not new_sender:
         raise HTTPException(status_code=400, detail="Failed to add sender")
-    return {"id": new_sender.id, "email": new_sender.email, "name": new_sender.name}
+    return {
+        'message': 'successfully added sender'
+        , 'success': True,
+        'data': {
+            "id": new_sender.id, "email": new_sender.email, "name": new_sender.name}
+
+    }
+
 
 @router.get("/senders")
 def list_senders(request: Request, db: Session = Depends(get_db)):
