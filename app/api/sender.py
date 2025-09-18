@@ -40,15 +40,7 @@ def list_senders(request: Request, db: Session = Depends(get_db)):
 
     print(f"Request from origin: {origin}, referer: {referer}, IP: {client_host}")
 
-    # Optional: whitelist only certain frontends
-    allowed_origins = [
-        "https://v0-next-js-frontend-seven-flame.vercel.app",
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "https://v0.app",
-    ]
-    if origin not in allowed_origins:
-        raise HTTPException(status_code=403, detail="Origin not allowed")
+   
 
     senders = db.query(Sender).all()
     return [{"id": s.id, "email": s.email, "name": s.name} for s in senders]
