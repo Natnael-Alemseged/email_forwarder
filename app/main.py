@@ -44,9 +44,10 @@ def on_startup():
 
 
 # Include routes
-app.include_router(user, prefix="/api")
-app.include_router(rules, prefix="/api")
-app.include_router(senders, prefix="/api")
+app.include_router(user, prefix="/api", tags=["Users"])
+app.include_router(rules, prefix="/api", tags=["Rules"])
+app.include_router(senders, prefix="/api", tags=["Senders"])
+
 
 # Start worker in background
 threading.Thread(target=start_worker, daemon=True).start()
